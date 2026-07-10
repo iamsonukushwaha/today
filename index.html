@@ -213,13 +213,6 @@
             font-family: "Fraunces", serif;
         }
 
-        .quote-author {
-            margin: 0;
-            color: var(--text-soft);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
         .focus {
             margin: 6px 0 0;
             font-size: 0.95rem;
@@ -311,7 +304,6 @@
                 </div>
 
                 <p class="quote" id="quoteText">"You do not rise to the level of goals, you fall to the level of systems."</p>
-                <p class="quote-author" id="quoteAuthor">James Clear</p>
                 <button id="newQuoteBtn" type="button">New Spark</button>
 
                 <p class="focus" id="dailyFocus">Focus cue: Pick one meaningful task and protect 45 distraction-free minutes for it.</p>
@@ -321,58 +313,58 @@
 
     <script>
         const quotes = [
-            { text: "You do not rise to the level of goals, you fall to the level of systems.", author: "James Clear" },
-            { text: "It is never too late to be what you might have been.", author: "George Eliot" },
-            { text: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier" },
-            { text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Will Durant" },
-            { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
-            { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
-            { text: "Small steps done daily create distances that bursts of effort never reach.", author: "New Day" },
-            { text: "Clarity grows when you write down your next action.", author: "New Day" },
-            { text: "Protect the first hour of your day and your day protects your goals.", author: "New Day" },
-            { text: "Progress loves consistency more than intensity.", author: "New Day" },
-            { text: "A focused twenty minutes beats an anxious two hours.", author: "New Day" },
-            { text: "Begin before you feel ready; readiness follows movement.", author: "New Day" },
-            { text: "Do not wait for motivation. Build a ritual and let it carry you.", author: "New Day" },
-            { text: "What you repeat today becomes your default tomorrow.", author: "New Day" },
-            { text: "A calm plan is stronger than a loud promise.", author: "New Day" },
-            { text: "When you cannot do everything, do the next meaningful thing.", author: "New Day" },
-            { text: "Your schedule is a story. Write a better chapter this morning.", author: "New Day" },
-            { text: "Less scrolling, more building.", author: "New Day" },
-            { text: "Energy is managed, not found.", author: "New Day" },
-            { text: "One completed task beats five started tasks.", author: "New Day" },
-            { text: "Depth creates value. Distraction creates noise.", author: "New Day" },
-            { text: "A routine is self-respect made visible.", author: "New Day" },
-            { text: "Show up on ordinary days and extraordinary days will appear.", author: "New Day" },
-            { text: "Momentum begins with one honest decision.", author: "New Day" },
-            { text: "Choose fewer priorities and give them better attention.", author: "New Day" },
-            { text: "If it matters, give it a time slot.", author: "New Day" },
-            { text: "Build mornings that your future self will thank you for.", author: "New Day" },
-            { text: "Good systems make hard days survivable.", author: "New Day" },
-            { text: "Make it easy to start and hard to quit.", author: "New Day" },
-            { text: "Consistency is confidence in slow motion.", author: "New Day" },
-            { text: "A clear desk and a clear list can change a week.", author: "New Day" },
-            { text: "You become what you do before noon.", author: "New Day" },
-            { text: "Reduce friction for good habits and increase it for bad ones.", author: "New Day" },
-            { text: "Work in sprints, rest with intention, repeat.", author: "New Day" },
-            { text: "Your attention is your most valuable budget.", author: "New Day" },
-            { text: "Keep promises to yourself, especially the small ones.", author: "New Day" },
-            { text: "Direction beats speed when speed is random.", author: "New Day" },
-            { text: "Create before you consume.", author: "New Day" },
-            { text: "Every reset is a strength, not a failure.", author: "New Day" },
-            { text: "Protect deep work like an important appointment.", author: "New Day" },
-            { text: "A better question than why me is what now.", author: "New Day" },
-            { text: "Today does not need to be perfect to be meaningful.", author: "New Day" },
-            { text: "When overwhelmed, shrink the task and start anyway.", author: "New Day" },
-            { text: "Quiet effort compounds loudly over time.", author: "New Day" },
-            { text: "Finish lines are built from start lines.", author: "New Day" },
-            { text: "Make room for reflection; speed without direction is drift.", author: "New Day" },
-            { text: "The next right action is always available.", author: "New Day" },
-            { text: "Plan your day once, then execute with calm.", author: "New Day" },
-            { text: "A strong day starts the night before.", author: "New Day" },
-            { text: "Protect your priorities from your impulses.", author: "New Day" },
-            { text: "Focus is a choice made repeatedly.", author: "New Day" },
-            { text: "Your habits are votes for the person you are becoming.", author: "New Day" }
+            "You do not rise to the level of goals, you fall to the level of systems.",
+            "It is never too late to be what you might have been.",
+            "Success is the sum of small efforts, repeated day in and day out.",
+            "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+            "The way to get started is to quit talking and begin doing.",
+            "Discipline is choosing between what you want now and what you want most.",
+            "Small steps done daily create distances that bursts of effort never reach.",
+            "Clarity grows when you write down your next action.",
+            "Protect the first hour of your day and your day protects your goals.",
+            "Progress loves consistency more than intensity.",
+            "A focused twenty minutes beats an anxious two hours.",
+            "Begin before you feel ready; readiness follows movement.",
+            "Do not wait for motivation. Build a ritual and let it carry you.",
+            "What you repeat today becomes your default tomorrow.",
+            "A calm plan is stronger than a loud promise.",
+            "When you cannot do everything, do the next meaningful thing.",
+            "Your schedule is a story. Write a better chapter this morning.",
+            "Less scrolling, more building.",
+            "Energy is managed, not found.",
+            "One completed task beats five started tasks.",
+            "Depth creates value. Distraction creates noise.",
+            "A routine is self-respect made visible.",
+            "Show up on ordinary days and extraordinary days will appear.",
+            "Momentum begins with one honest decision.",
+            "Choose fewer priorities and give them better attention.",
+            "If it matters, give it a time slot.",
+            "Build mornings that your future self will thank you for.",
+            "Good systems make hard days survivable.",
+            "Make it easy to start and hard to quit.",
+            "Consistency is confidence in slow motion.",
+            "A clear desk and a clear list can change a week.",
+            "You become what you do before noon.",
+            "Reduce friction for good habits and increase it for bad ones.",
+            "Work in sprints, rest with intention, repeat.",
+            "Your attention is your most valuable budget.",
+            "Keep promises to yourself, especially the small ones.",
+            "Direction beats speed when speed is random.",
+            "Create before you consume.",
+            "Every reset is a strength, not a failure.",
+            "Protect deep work like an important appointment.",
+            "A better question than why me is what now.",
+            "Today does not need to be perfect to be meaningful.",
+            "When overwhelmed, shrink the task and start anyway.",
+            "Quiet effort compounds loudly over time.",
+            "Finish lines are built from start lines.",
+            "Make room for reflection; speed without direction is drift.",
+            "The next right action is always available.",
+            "Plan your day once, then execute with calm.",
+            "A strong day starts the night before.",
+            "Protect your priorities from your impulses.",
+            "Focus is a choice made repeatedly.",
+            "Your habits are votes for the person you are becoming."
         ];
 
         const focusByDay = {
@@ -393,7 +385,6 @@
         const dayProgressEl = document.getElementById("dayProgress");
         const progressTextEl = document.getElementById("progressText");
         const quoteTextEl = document.getElementById("quoteText");
-        const quoteAuthorEl = document.getElementById("quoteAuthor");
         const dailyFocusEl = document.getElementById("dailyFocus");
         const newQuoteBtn = document.getElementById("newQuoteBtn");
 
@@ -412,8 +403,7 @@
 
         function setRandomQuote() {
             const random = quotes[Math.floor(Math.random() * quotes.length)];
-            quoteTextEl.textContent = `"${random.text}"`;
-            quoteAuthorEl.textContent = random.author;
+            quoteTextEl.textContent = `"${random}"`;
         }
 
         function updateTimeUI() {
