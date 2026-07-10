@@ -1,71 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>New Day</title>
-        <style>
-            body {
-                margin: 24px;
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Day</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-1: #fff6e9;
+            --bg-2: #ffe5b8;
+            --bg-3: #ffd09b;
+            --text-main: #33211a;
+            --text-soft: #6f5246;
+            --card: rgba(255, 255, 255, 0.72);
+            --card-border: rgba(255, 255, 255, 0.78);
+            --accent: #0d9f8f;
+            --accent-2: #ff6f3c;
+            --shadow: 0 18px 40px rgba(72, 45, 30, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Sora", sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.85), transparent 42%),
+                radial-gradient(circle at 80% 10%, rgba(13, 159, 143, 0.18), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(255, 111, 60, 0.18), transparent 35%),
+                linear-gradient(140deg, var(--bg-1), var(--bg-2), var(--bg-3));
+            overflow-x: hidden;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(8px);
+            z-index: 0;
+            animation: drift 18s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .blob.one {
+            width: 280px;
+            height: 280px;
+            top: -60px;
+            left: -70px;
+            background: rgba(13, 159, 143, 0.2);
+        }
+
+        .blob.two {
+            width: 340px;
+            height: 340px;
+            bottom: -120px;
+            right: -90px;
+            background: rgba(255, 111, 60, 0.24);
+            animation-duration: 24s;
+        }
+
+        .page {
+            min-height: 100%;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            padding: 28px;
+        }
+
+        .board {
+            width: min(980px, 100%);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .kicker {
+            margin: 0;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            color: var(--text-soft);
+        }
+
+        h1 {
+            margin: 10px 0 8px;
+            font-family: "Fraunces", serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: 0.01em;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--text-soft);
+            font-size: 0.98rem;
+            max-width: 42ch;
+        }
+
+        .clock {
+            margin: 2px 0;
+            font-size: clamp(2rem, 8vw, 4.6rem);
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            line-height: 1;
+        }
+
+        .date {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-soft);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .stat {
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.74);
+        }
+
+        .stat-label {
+            margin: 0;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-soft);
+        }
+
+        .stat-value {
+            margin: 8px 0 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .meter-wrap {
+            margin-top: 16px;
+        }
+
+        .meter-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .meter-head p {
+            margin: 0;
+            color: var(--text-soft);
+            font-size: 0.87rem;
+        }
+
+        .meter {
+            width: 100%;
+            height: 13px;
+            border-radius: 999px;
+            background: rgba(90, 59, 46, 0.14);
+            overflow: hidden;
+        }
+
+        .meter > span {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            transition: width 0.5s ease;
+        }
+
+        .quote-card {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+        }
+
+        .quote {
+            margin: 0;
+            font-size: clamp(1.05rem, 2.7vw, 1.45rem);
+            line-height: 1.45;
+            font-family: "Fraunces", serif;
+        }
+
+        .quote-author {
+            margin: 0;
+            color: var(--text-soft);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .focus {
+            margin: 6px 0 0;
+            font-size: 0.95rem;
+            color: var(--text-soft);
+            line-height: 1.5;
+        }
+
+        button {
+            border: 0;
+            background: linear-gradient(95deg, var(--accent), #0f7f94);
+            color: #fff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            width: fit-content;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 8px 18px rgba(13, 127, 148, 0.28);
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 20px rgba(13, 127, 148, 0.35);
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0);
             }
 
-            p {
-                /* text-align: center; */
-                float: right;
-                padding: 16px 4px;
-                margin: 12px 24px;
-                background-color: bisque;
-                min-width: 300px;
+            to {
+                transform: translate(24px, -20px);
+            }
+        }
+
+        @media (max-width: 860px) {
+            .board {
+                grid-template-columns: 1fr;
             }
 
-            #date {
-                color: red;
+            .card {
+                padding: 20px;
+                border-radius: 20px;
             }
-        </style>
-    </head>
+        }
+    </style>
+</head>
 
-    <body>
+<body>
+    <div class="blob one"></div>
+    <div class="blob two"></div>
 
-        <p id="demo"></p>
+    <main class="page">
+        <section class="board" aria-label="New day dashboard">
+            <article class="card hero">
+                <div>
+                    <p class="kicker">A Better Beginning</p>
+                    <h1 id="greeting">Good morning</h1>
+                    <p class="subtitle">Every day is fresh material. Shape this one with intention, not noise.</p>
+                </div>
 
-        <script>
-            function newDay() {
+                <div>
+                    <p class="clock" id="clock">00:00:00</p>
+                    <p class="date" id="date">Friday, 10 July 2026</p>
 
-                const demo = document.getElementById('demo');
-                const day = new Date();
-                // console.log(day);
-                demo.textContent = day;
+                    <div class="meter-wrap">
+                        <div class="meter-head">
+                            <p>Day Progress</p>
+                            <p id="progressText">0%</p>
+                        </div>
+                        <div class="meter" aria-label="Day progress">
+                            <span id="dayProgress"></span>
+                        </div>
+                    </div>
+                </div>
+            </article>
 
-                //  this give date one day before 😍
+            <article class="card quote-card">
+                <div class="stat-grid">
+                    <div class="stat">
+                        <p class="stat-label">Weekday</p>
+                        <p class="stat-value" id="weekday">Friday</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-label">Day of Year</p>
+                        <p class="stat-value" id="dayOfYear">191</p>
+                    </div>
+                </div>
 
-                // var msec = Date.parse(day);
-                // var y = msec - 86400000;
-                // var d = new Date(y);
-                // console.log(d);
-                // demo.textContent = d;
-            }
+                <p class="quote" id="quoteText">"You do not rise to the level of goals, you fall to the level of systems."</p>
+                <p class="quote-author" id="quoteAuthor">James Clear</p>
+                <button id="newQuoteBtn" type="button">New Spark</button>
 
-            setInterval(newDay, 1000);
-        </script>
+                <p class="focus" id="dailyFocus">Focus cue: Pick one meaningful task and protect 45 distraction-free minutes for it.</p>
+            </article>
+        </section>
+    </main>
 
-        <p id="date"></p>
+    <script>
+        const quotes = [
+            { text: "You do not rise to the level of goals, you fall to the level of systems.", author: "James Clear" },
+            { text: "It is never too late to be what you might have been.", author: "George Eliot" },
+            { text: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier" },
+            { text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Will Durant" },
+            { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+            { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+            { text: "Small steps done daily create distances that bursts of effort never reach.", author: "New Day" },
+            { text: "Clarity grows when you write down your next action.", author: "New Day" },
+            { text: "Protect the first hour of your day and your day protects your goals.", author: "New Day" },
+            { text: "Progress loves consistency more than intensity.", author: "New Day" },
+            { text: "A focused twenty minutes beats an anxious two hours.", author: "New Day" },
+            { text: "Begin before you feel ready; readiness follows movement.", author: "New Day" },
+            { text: "Do not wait for motivation. Build a ritual and let it carry you.", author: "New Day" },
+            { text: "What you repeat today becomes your default tomorrow.", author: "New Day" },
+            { text: "A calm plan is stronger than a loud promise.", author: "New Day" },
+            { text: "When you cannot do everything, do the next meaningful thing.", author: "New Day" },
+            { text: "Your schedule is a story. Write a better chapter this morning.", author: "New Day" },
+            { text: "Less scrolling, more building.", author: "New Day" },
+            { text: "Energy is managed, not found.", author: "New Day" },
+            { text: "One completed task beats five started tasks.", author: "New Day" },
+            { text: "Depth creates value. Distraction creates noise.", author: "New Day" },
+            { text: "A routine is self-respect made visible.", author: "New Day" },
+            { text: "Show up on ordinary days and extraordinary days will appear.", author: "New Day" },
+            { text: "Momentum begins with one honest decision.", author: "New Day" },
+            { text: "Choose fewer priorities and give them better attention.", author: "New Day" },
+            { text: "If it matters, give it a time slot.", author: "New Day" },
+            { text: "Build mornings that your future self will thank you for.", author: "New Day" },
+            { text: "Good systems make hard days survivable.", author: "New Day" },
+            { text: "Make it easy to start and hard to quit.", author: "New Day" },
+            { text: "Consistency is confidence in slow motion.", author: "New Day" },
+            { text: "A clear desk and a clear list can change a week.", author: "New Day" },
+            { text: "You become what you do before noon.", author: "New Day" },
+            { text: "Reduce friction for good habits and increase it for bad ones.", author: "New Day" },
+            { text: "Work in sprints, rest with intention, repeat.", author: "New Day" },
+            { text: "Your attention is your most valuable budget.", author: "New Day" },
+            { text: "Keep promises to yourself, especially the small ones.", author: "New Day" },
+            { text: "Direction beats speed when speed is random.", author: "New Day" },
+            { text: "Create before you consume.", author: "New Day" },
+            { text: "Every reset is a strength, not a failure.", author: "New Day" },
+            { text: "Protect deep work like an important appointment.", author: "New Day" },
+            { text: "A better question than why me is what now.", author: "New Day" },
+            { text: "Today does not need to be perfect to be meaningful.", author: "New Day" },
+            { text: "When overwhelmed, shrink the task and start anyway.", author: "New Day" },
+            { text: "Quiet effort compounds loudly over time.", author: "New Day" },
+            { text: "Finish lines are built from start lines.", author: "New Day" },
+            { text: "Make room for reflection; speed without direction is drift.", author: "New Day" },
+            { text: "The next right action is always available.", author: "New Day" },
+            { text: "Plan your day once, then execute with calm.", author: "New Day" },
+            { text: "A strong day starts the night before.", author: "New Day" },
+            { text: "Protect your priorities from your impulses.", author: "New Day" },
+            { text: "Focus is a choice made repeatedly.", author: "New Day" },
+            { text: "Your habits are votes for the person you are becoming.", author: "New Day" }
+        ];
 
-        <script>
-            function GDate() {
-                n = new Date();
-                y = n.getFullYear();
-                m = n.getMonth() + 1;
-                d = n.getDate();
-                h = n.getHours();
-                mi = n.getMinutes();
-                s = n.getSeconds();
-                ms = n.getMilliseconds();
+        const focusByDay = {
+            0: "Focus cue: Keep it light and reflective. Plan your top priorities for the week.",
+            1: "Focus cue: Start with your hardest task before opening social apps.",
+            2: "Focus cue: Batch meetings together and reserve one deep-work block.",
+            3: "Focus cue: Midweek reset. Declutter your to-do list and protect your energy.",
+            4: "Focus cue: Finish one pending item fully before starting anything new.",
+            5: "Focus cue: Build momentum with one creative sprint and one practical sprint.",
+            6: "Focus cue: Slow down. Rest, review, and recharge intentionally."
+        };
 
-                document.getElementById("date").innerHTML = " Date : " + d + " / " + m + " / " + y + " Time : " + h + " : " + mi + " : " + s + " : " + ms;
-            }
-            setInterval(GDate, 1);
-        </script>
-    </body>
+        const clockEl = document.getElementById("clock");
+        const dateEl = document.getElementById("date");
+        const greetingEl = document.getElementById("greeting");
+        const weekdayEl = document.getElementById("weekday");
+        const dayOfYearEl = document.getElementById("dayOfYear");
+        const dayProgressEl = document.getElementById("dayProgress");
+        const progressTextEl = document.getElementById("progressText");
+        const quoteTextEl = document.getElementById("quoteText");
+        const quoteAuthorEl = document.getElementById("quoteAuthor");
+        const dailyFocusEl = document.getElementById("dailyFocus");
+        const newQuoteBtn = document.getElementById("newQuoteBtn");
+
+        function dayOfYear(date) {
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = date - start;
+            return Math.floor(diff / 86400000);
+        }
+
+        function greetingByHour(hour) {
+            if (hour < 12) return "Good morning";
+            if (hour < 17) return "Good afternoon";
+            if (hour < 21) return "Good evening";
+            return "Good night";
+        }
+
+        function setRandomQuote() {
+            const random = quotes[Math.floor(Math.random() * quotes.length)];
+            quoteTextEl.textContent = `"${random.text}"`;
+            quoteAuthorEl.textContent = random.author;
+        }
+
+        function updateTimeUI() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = String(now.getMinutes()).padStart(2, "0");
+            const second = String(now.getSeconds()).padStart(2, "0");
+            const weekday = now.toLocaleDateString(undefined, { weekday: "long" });
+            const fullDate = now.toLocaleDateString(undefined, {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+            const secondsPassed = hour * 3600 + now.getMinutes() * 60 + now.getSeconds();
+            const progress = (secondsPassed / 86400) * 100;
+
+            clockEl.textContent = `${String(hour).padStart(2, "0")}:${minute}:${second}`;
+            dateEl.textContent = fullDate;
+            greetingEl.textContent = greetingByHour(hour);
+            weekdayEl.textContent = weekday;
+            dayOfYearEl.textContent = String(dayOfYear(now));
+            dayProgressEl.style.width = `${progress.toFixed(2)}%`;
+            progressTextEl.textContent = `${Math.floor(progress)}%`;
+            dailyFocusEl.textContent = focusByDay[now.getDay()];
+        }
+
+        newQuoteBtn.addEventListener("click", setRandomQuote);
+
+        setRandomQuote();
+        updateTimeUI();
+        setInterval(updateTimeUI, 1000);
+    </script>
+</body>
 
 </html>
